@@ -7,6 +7,7 @@ public class Study
     public Study()
     {
         CreateTable();
+        CreateFlashcards();
     }
     private void CreateTable()
     {
@@ -45,5 +46,42 @@ CREATE TABLE STUDYSESSION (
             tableCmd.ExecuteNonQuery();
             connection.Close();
         }
+    }
+
+
+    private void CreateFlashcards()
+    {
+        Console.WriteLine("Creating flashcards...");
+        var connectionString = "Server=localhost;Database=master;User Id=sa;Password=Apples123;";
+        using (var connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            var insertCmd = connection.CreateCommand();
+            insertCmd.CommandText += @"
+INSERT INTO STACKS (name, description) VALUES ('Math', 'Basic math concepts');
+INSERT INTO STACKS (name, description) VALUES ('Science', 'General science facts');
+
+INSERT INTO FLASHCARDS (question, answer, stackID) VALUES ('What is 2+2?', '4', 1);
+INSERT INTO FLASHCARDS (question, answer, stackID) VALUES ('What is H2O?', 'Water', 2);
+INSERT INTO FLASHCARDS (question, answer, stackID) VALUES ('What is 5 x 6?', '30', 1);
+INSERT INTO FLASHCARDS (question, answer, stackID) VALUES ('What is the square root of 16?', '4', 1);
+INSERT INTO FLASHCARDS (question, answer, stackID) VALUES ('What is 12 divided by 3?', '4', 1);
+INSERT INTO FLASHCARDS (question, answer, stackID) VALUES ('What is the value of pi (approx)?', '3.14', 1);
+INSERT INTO FLASHCARDS (question, answer, stackID) VALUES ('What is 7 + 8?', '15', 1);
+
+INSERT INTO FLASHCARDS (question, answer, stackID) VALUES ('What planet is known as the Red Planet?', 'Mars', 2);
+INSERT INTO FLASHCARDS (question, answer, stackID) VALUES ('What gas do plants breathe in?', 'Carbon dioxide', 2);
+INSERT INTO FLASHCARDS (question, answer, stackID) VALUES ('What is the boiling point of water (Celsius)?', '100', 2);
+INSERT INTO FLASHCARDS (question, answer, stackID) VALUES ('What organ pumps blood?', 'Heart', 2);
+INSERT INTO FLASHCARDS (question, answer, stackID) VALUES ('What is the chemical symbol for gold?', 'Au', 2);
+";
+            insertCmd.ExecuteNonQuery();
+            connection.Close();
+        }
+    }
+
+    private void StartStudySession()
+    {
+        
     }
 }
