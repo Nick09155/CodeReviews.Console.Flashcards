@@ -2,9 +2,10 @@ namespace Flashcards.Nick09155.Models;
 
 public class UserMenu
 {
+    private Study study;
     public UserMenu()
     {
-        Study study = new Study();
+        study = new Study();
     }
     
     public void GetUserInput()
@@ -17,9 +18,7 @@ public class UserMenu
             Console.WriteLine("\nWhat would you like to do?");
             Console.WriteLine("\nType 0 to Close Application.");
             Console.WriteLine("Type 1 to Start a Study Session");
-            Console.WriteLine("Type 2 to Insert Record.");
-            Console.WriteLine("Type 3 to Delete Record.");
-            Console.WriteLine("Type 4 to Update Record.");
+            Console.WriteLine("Type 2 to View Study Sessions");
             Console.WriteLine("------------------------------------------\n");
 
             string userInput = Console.ReadLine();
@@ -30,12 +29,12 @@ public class UserMenu
                     closeApp = true;
                     break;
                 case "1":
-                    // study.GetRecords();
-                    Console.ReadKey();
+                    study.StartStudySession();
+                    // Console.ReadKey();
                     break;
-                // case "2":
-                //     codingOperations.Insert();
-                //     break;
+                case "2":
+                    study.ViewStudySessions();
+                    break;
                 // case "3":
                 //     codingOperations.Delete();
                 //     break;
