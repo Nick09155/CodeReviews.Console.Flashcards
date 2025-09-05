@@ -1,11 +1,13 @@
+using Microsoft.Extensions.Configuration;
+
 namespace Flashcards.Nick09155.Models;
 
 public class UserMenu
 {
     private Study study;
-    public UserMenu()
+    public UserMenu(IConfiguration config)
     {
-        study = new Study();
+        study = new Study(config);
     }
     
     public void GetUserInput()
