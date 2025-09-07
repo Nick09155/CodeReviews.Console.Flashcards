@@ -36,11 +36,11 @@ public class FlashcardService
         {
             var sql = "SELECT * FROM STACKS";
             var results = connection.Query<Stack>(sql).ToList();
-            Console.WriteLine("Which stack would you like to view flashcards for?");
+            Console.WriteLine("Which stack would you like to view flashcards for? Choose a number.");
             Helpers.DisplayTable(results);
             var userInput = Console.ReadLine();
             var flashcards = connection.Query<FlashcardDto>($"SELECT * FROM FLASHCARDS WHERE stackId = {userInput}").ToList();
-            Helpers.DisplayFlashcards(flashcards);
+            Helpers.DisplayFlashcards(flashcards, false);
             Helpers.PressAnyKeyToContinue();
         }
     }
@@ -51,12 +51,12 @@ public class FlashcardService
         {
             var sql = "SELECT * FROM FLASHCARDS";
             var results = connection.Query<FlashcardDto>(sql).ToList();
-            Console.WriteLine("Which flashcard would you like to remove?");
-            Helpers.DisplayFlashcards(results);
+            Console.WriteLine("Which flashcard would you like to remove? Choose a number.");
+            Helpers.DisplayFlashcards(results, false);
             var userInput = Console.ReadLine();
             var selectedFlashcard = results[int.Parse(userInput) - 1];
-            var deleteSql = $"DELETE FROM FLASHCARDS WHERE Question = {selectedFlashcard.Question}";
-            var exec = connection.Execute(deleteSql);
+            var deleteSql = "DELETE FROM FLASHCARDS WHERE Question = @Question";
+            var exec = connection.Execute(deleteSql, new { Question = selectedFlashcard.Question });
             if (exec > 0)
             {
                 Console.WriteLine("Flashcard removed.");

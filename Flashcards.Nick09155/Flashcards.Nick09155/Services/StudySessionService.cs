@@ -50,11 +50,14 @@ public class StudySessionService
                     Console.WriteLine("Incorrect answer. The correct answer is: " + flashcard.Answer);
                 }
             }
-                Console.WriteLine($"Study session finished. Your score is: {score}.");
             
             string today = DateTime.Now.ToString("MM-dd-yy");
             var sql = $"INSERT INTO STUDYSESSION (date, score, stackID) VALUES ('{today}', '{score}', '{userInput}')";
             connection.Execute(sql);
+            
+            Console.Clear();
+            Console.WriteLine($"Study session finished. Your score is: {score}.");
+            Helpers.PressAnyKeyToContinue();
         }
     }
 
@@ -65,6 +68,7 @@ public class StudySessionService
             connection.Open();
             var sql = "SELECT * FROM STUDYSESSION";
             var results = connection.Query<StudySession>(sql).ToList();
+            Console.Clear();
             Console.WriteLine("Sessions:");
             Console.WriteLine("---------------------------");
             foreach (var result in results)
@@ -72,7 +76,7 @@ public class StudySessionService
                 Console.WriteLine($"{result.Date}: {result.Score}");
             }
             Console.WriteLine("---------------------------");
-            Console.ReadKey();
+            Helpers.PressAnyKeyToContinue();
         }
     }
 }

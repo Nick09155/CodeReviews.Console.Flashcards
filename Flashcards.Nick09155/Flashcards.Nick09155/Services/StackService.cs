@@ -23,6 +23,8 @@ public class StackService
         {
             var sql = "SELECT * FROM STACKS";
             var results = connection.Query<Stack>(sql).ToList();
+            Console.Clear();
+            Console.WriteLine("Stacks:");
             Helpers.DisplayTable(results);
             Helpers.PressAnyKeyToContinue();
         }
@@ -54,7 +56,8 @@ public class StackService
         {
             var sql = "SELECT * FROM STACKS";
             var results = connection.Query<Stack>(sql).ToList();
-            Console.WriteLine("Which stack would you like to remove?");
+            Console.Clear();
+            Console.WriteLine("Which stack would you like to remove? Choose a number.");
             Helpers.DisplayTable(results);
 
             var userInput = Console.ReadLine();

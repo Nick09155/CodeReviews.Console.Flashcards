@@ -18,16 +18,23 @@ public class Helpers
         AnsiConsole.Write(table);
     }
     
-    internal static void DisplayFlashcards(List<DTO.FlashcardDto> list)
+    internal static void DisplayFlashcards(List<DTO.FlashcardDto> list, bool showStack = true)
     {
         var table = new Table();
         table.AddColumn("#");
-        table.AddColumn(new TableColumn("Stack").Centered());
+        if (showStack) table.AddColumn(new TableColumn("Stack").Centered());
         table.AddColumn(new TableColumn("Question").Centered());
         int id = 1;
         foreach (var item in list)
         {
-            table.AddRow($"{id}", $"[yellow]{item.StackName}[/]", $"[blue]{item.Question}[/]");
+            if (!showStack)
+            {
+                table.AddRow($"{id}", $"[blue]{item.Question}[/]");
+            }
+            else
+            {
+                table.AddRow($"{id}", $"[yellow]{item.StackName}[/]", $"[blue]{item.Question}[/]");
+            }
             id++;
         }
             
