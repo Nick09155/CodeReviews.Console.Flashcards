@@ -7,11 +7,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace Flashcards.Nick09155;
 
-public class Study
+public class StudySessionService
 {
     private readonly DatabaseService _databaseService;
     private string connectionString { get; }
-    public Study(IConfiguration config)
+    public StudySessionService(IConfiguration config)
     {
         _databaseService = new DatabaseService(config);
         connectionString = _databaseService.GetConnectionString();
@@ -34,7 +34,7 @@ public class Study
             }
             string userInput = Console.ReadLine();
             
-            var flashcards = connection.Query<FlashcardDTO>("SELECT * FROM FLASHCARDS WHERE stackID = @StackId", new { StackId = userInput }).ToList();
+            var flashcards = connection.Query<FlashcardDto>("SELECT * FROM FLASHCARDS WHERE stackID = @StackId", new { StackId = userInput }).ToList();
 
             foreach (var flashcard in flashcards)
             {
@@ -50,14 +50,11 @@ public class Study
                     Console.WriteLine("Incorrect answer. The correct answer is: " + flashcard.Answer);
                 }
             }
-            // Valide Input
-            var chosenStack = stacks.Where(s => s.StackId.ToString() == userInput).FirstOrDefault();
+                Console.WriteLine($"Study session finished. Your score is: {score}.");
             
             string today = DateTime.Now.ToString("MM-dd-yy");
-            // var insertCmd = connection.CreateCommand();
             var sql = $"INSERT INTO STUDYSESSION (date, score, stackID) VALUES ('{today}', '{score}', '{userInput}')";
             connection.Execute(sql);
-            // insertCmd.Execute();
         }
     }
 
